@@ -10,15 +10,22 @@ const tweets = []
 
 app.post('/sign-up', (req, res) => {
     const user = req.body
+    if(user.username === '' || user.avatar === ''){
+        //res.sendStatus(400)
+        return res.status(400).send('Todos os campos são obrigatórios!')
+    }
     users.push(user)
-    res.send('OK')
+    res.status(201).send('Created')
 })
 
 app.post('/tweets', (req, res) => {
     const user = users[users.length - 1]
     const {tweet} = req.body
+    if(user.username === '' || tweet === ''){
+        return res.status(400).send('Todos os campos são obrigatórios!')
+    }
     tweets.push({...user, tweet})
-    res.send('OK')
+    res.status(201).send('Created')
 })
 
 app.get('/tweets', (req, res) => {
